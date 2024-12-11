@@ -1,5 +1,5 @@
 
-namespace VirtstrumentAPI
+namespace AutomationAPI
 {
     public class Program
     {

@@ -1,7 +1,7 @@
+using AutomationAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using VirtstrumentAPI.Models;
 
-namespace VirtstrumentAPI.Controllers
+namespace AutomationAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]

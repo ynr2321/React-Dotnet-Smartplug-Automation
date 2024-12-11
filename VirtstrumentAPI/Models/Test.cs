@@ -1,4 +1,4 @@
-namespace VirtstrumentAPI.Models
+namespace AutomationAPI.Models
 {
     public class Test
     {
