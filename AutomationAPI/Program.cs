@@ -7,16 +7,14 @@ namespace AutomationAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // CORS Policy
-            var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+            // Configuring CORS Policy
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowLocalhost", policy =>
+                options.AddPolicy("AllowAll", policy =>
                 {
-                    if (allowedOrigins != null)
-                        policy.WithOrigins(allowedOrigins)
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
+                    policy.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
 
@@ -25,6 +23,7 @@ namespace AutomationAPI
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -32,12 +31,13 @@ namespace AutomationAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
 
             app.Run();
-
         }
     }
 }
