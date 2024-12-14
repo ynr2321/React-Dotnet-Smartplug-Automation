@@ -3,6 +3,9 @@ import reactLogo from './assets/react.svg'
 import './App.css'
 
 function App() {
+
+  let randomNum = 5;
+  randomNum ++;
   const [count, setCount] = useState(0)
 
   return (

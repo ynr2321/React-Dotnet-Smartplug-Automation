@@ -14,9 +14,9 @@ namespace AutomationAPI.Controllers
 
         private readonly ILogger<PlaceholderController> _logger;
 
-        public PlaceholderController(ILogger<PlaceholderController> logger)
+        public PlaceholderController()
         {
-            _logger = logger;
+
         }
 
         [HttpGet(Name = "GetPlaceholder")]
