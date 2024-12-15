@@ -1,37 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from 'react';
+import spoon from './assets/winking-spoon.png';
+import cigPack from './assets/cig-pack.png';
+import './App.css';
+
+async function GenerateMessage() {
+  console.log('Fetching mum message from API');
+  try {
+    const response = await fetch('https://localhost:32769/placeholder');
+    const data = await response.json();
+    return data.message; 
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return "Error fetching message"; 
+  }
+}
 
 function App() {
+  const [phrase, setMessage] = useState(""); // State to store the message
 
-  let randomNum = 5;
-  randomNum ++;
-  const [count, setCount] = useState(0)
+  const handleClick = async () => {
+    const message = await GenerateMessage();
+    setMessage(message); 
+  };
 
   return (
     <div className="App">
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
+        <a target="_blank">
+          <img src={cigPack} className="logo" alt="Vite logo" />
         </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+        <a target="_blank">
+          <img src={spoon} className="logo" alt="Cig logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      
+      <h2>{phrase}</h2>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={handleClick}>
+          Reveal Mum's Message...
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Mum phrase generator
       </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
