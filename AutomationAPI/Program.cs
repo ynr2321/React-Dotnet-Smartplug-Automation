@@ -1,4 +1,9 @@
 
+using AutomationAPI.Data;
+using AutomationAPI.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
+
 namespace AutomationAPI
 {
     public class Program
@@ -18,15 +23,27 @@ namespace AutomationAPI
                 });
             });
 
+            // Setup database access (store in dotnet secrets)
+            var connectionString = builder.Configuration.GetConnectionString("local_db");
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            });
+
+            // Inject custom data access repositories
+            builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+
+            // Add controllers and swagger
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Build
             var app = builder.Build();
             
+            // Use swagger in both dev and prod for now
             app.UseSwagger();
             app.UseSwaggerUI();
-            
 
             // Configure the HTTP request pipeline.
             app.UseCors("AllowAll");
