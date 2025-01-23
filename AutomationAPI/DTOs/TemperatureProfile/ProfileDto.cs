@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AutomationAPI.Models
+﻿namespace AutomationAPI.DTOs.TemperatureProfile
 {
-    public class TemperatureProfile
+    public class ProfileDto
     {
-        [Key]
-        public int ProfileId { get; set; } 
+        public int ProfileId { get; set; }
         public string Name { get; set; }
         public string Profile { get; set; }
         public int RoomId { get; set; }

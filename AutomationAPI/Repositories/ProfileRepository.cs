@@ -1,4 +1,5 @@
 ﻿using AutomationAPI.Data;
+using AutomationAPI.Models;
 
 namespace AutomationAPI.Repositories
 {
@@ -12,6 +13,31 @@ namespace AutomationAPI.Repositories
         public ProfileRepository(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public Task<List<TemperatureProfile>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TemperatureProfile?> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TemperatureProfile> CreateAsync(TemperatureProfile profileModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TemperatureProfile?> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ProfileExists(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

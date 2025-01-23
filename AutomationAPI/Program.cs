@@ -2,7 +2,6 @@
 using AutomationAPI.Data;
 using AutomationAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql;
 
 namespace AutomationAPI
 {
@@ -23,7 +22,7 @@ namespace AutomationAPI
                 });
             });
 
-            // Setup database access (store in dotnet secrets)
+            // Setup database access (store local and cloud connection string with dotnet secrets)
             var connectionString = builder.Configuration.GetConnectionString("local_db");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
