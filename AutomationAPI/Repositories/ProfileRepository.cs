@@ -1,5 +1,6 @@
 ﻿using AutomationAPI.Data;
 using AutomationAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutomationAPI.Repositories
 {
@@ -15,19 +16,28 @@ namespace AutomationAPI.Repositories
             _context = context;
         }
 
-        public Task<List<TemperatureProfile>> GetAllAsync()
+
+        public async Task<List<TemperatureProfile>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            // Get profiles dbset as queryable
+            var profiles = _context.Profiles.AsQueryable();
+
+            // Order newest to oldest
+            profiles = profiles.OrderByDescending(p => p.CreatedDate);
+
+            return await profiles.ToListAsync();
         }
 
-        public Task<TemperatureProfile?> GetByIdAsync(int id)
+        public async Task<TemperatureProfile?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Profiles.FirstOrDefaultAsync(p => p.ProfileId == id);
         }
 
-        public Task<TemperatureProfile> CreateAsync(TemperatureProfile profileModel)
+        public async Task<TemperatureProfile> CreateAsync(TemperatureProfile profileModel)
         {
-            throw new NotImplementedException();
+            await _context.AddAsync(profileModel);
+            await _context.SaveChangesAsync();
+            return profileModel;
         }
 
         public Task<TemperatureProfile?> DeleteAsync(int id)

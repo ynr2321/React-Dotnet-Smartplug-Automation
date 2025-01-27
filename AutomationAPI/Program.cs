@@ -39,8 +39,9 @@ namespace AutomationAPI
 
             // Build
             var app = builder.Build();
-            
-            // Use swagger in both dev and prod for now
+
+            // Use swagger in both dev and prod for now - swagger/v1/swagger.json for developer exception page
+            app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI();
 
@@ -50,7 +51,7 @@ namespace AutomationAPI
             app.UseAuthorization();
             app.MapControllers();
 
-            app.Run();
+            app.Run("https://0.0.0.0:8081");
         }
     }
 }
