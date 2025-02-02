@@ -2,7 +2,7 @@
 
 namespace AutomationAPI.DTOs.TemperatureProfile
 {
-    public class CreateProfileDto
+    public class UpdateProfileRequestDto
     {
         [Required]
         [MinLength(2, ErrorMessage = "Temperature Profile name must have more than 1 character.")]

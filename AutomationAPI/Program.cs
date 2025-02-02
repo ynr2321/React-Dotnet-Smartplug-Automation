@@ -23,7 +23,7 @@ namespace AutomationAPI
             });
 
             // Setup database access (store local and cloud connection string with dotnet secrets)
-            var connectionString = builder.Configuration.GetConnectionString("local_db");
+            var connectionString = builder.Configuration.GetConnectionString("for_local_api");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
@@ -47,11 +47,11 @@ namespace AutomationAPI
 
             // Configure the HTTP request pipeline.
             app.UseCors("AllowAll");
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
 
-            app.Run("https://0.0.0.0:8081");
+            app.Run();
         }
     }
 }

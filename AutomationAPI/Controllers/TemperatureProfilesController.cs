@@ -32,10 +32,6 @@ namespace AutomationAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            // If any data validation doesn't pass, return bad request
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var profiles = await _profileRepo.GetAllAsync();
 
             // Map profile models to presentable DTOs before returning
@@ -52,10 +48,6 @@ namespace AutomationAPI.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            // If any data validation doesn't pass, return bad request
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var profile = await _profileRepo.GetByIdAsync(id);
 
             if (profile == null)
@@ -69,6 +61,7 @@ namespace AutomationAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProfileDto profileDto)
         {
+            // If any data validation doesn't pass, return bad request
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -78,5 +71,34 @@ namespace AutomationAPI.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = profileModel.ProfileId }, profileModel.ToProfileDto());
         }
+
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateProfileRequestDto updateDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var profileModel = await _profileRepo.UpdateAsync(id, updateDto);
+
+            if (profileModel == null)
+                return NotFound();
+
+            return Ok(profileModel.ToProfileDto());
+
+        }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var profileModel = await _profileRepo.DeleteAsync(id);
+
+            if (profileModel == null)
+                return NotFound();
+
+            return NoContent();
+        }
     }
+
 }
