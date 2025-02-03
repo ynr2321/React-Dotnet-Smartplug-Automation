@@ -21,6 +21,12 @@ namespace AutomationAPI.Controllers
             _signinManager = signInManager;
         }
 
+
+        /// <summary>
+        /// Authenticates a user and returns a JWT token if successful.
+        /// </summary>
+        /// <param name="loginDto">Data transfer object containing username and password.</param>
+        /// <returns>Returns the authenticated user's details with a JWT token.</returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
@@ -45,49 +51,59 @@ namespace AutomationAPI.Controllers
             );
         }
 
+
+        /// <summary>
+        /// Registers a new user and assigns the "User" role.
+        /// </summary>
+        /// <param name="registerDto">Data transfer object containing registration details.</param>
+        /// <returns>Returns the registered user's details with a JWT token if successful.</returns>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             try
             {
+                // Check if the model state is valid (DTOs meet data annotation requirements)
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
+                // Create a new AppUser object with the provided username and email
                 var appUser = new AppUser
                 {
                     UserName = registerDto.Username,
                     Email = registerDto.Email
                 };
 
+                // Create user
                 var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
                 if (createdUser.Succeeded)
                 {
+                    // Assign 'user' role
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
+
                     if (roleResult.Succeeded)
                     {
+                        // Return the user's details with JWT token if successful
                         return Ok(
                             new NewUserDto
                             {
                                 UserName = appUser.UserName,
                                 Email = appUser.Email,
-                                Token = _tokenService.CreateToken(appUser)
+                                Token = _tokenService.CreateToken(appUser) 
                             }
                         );
                     }
-                    else
-                    {
-                        return StatusCode(500, roleResult.Errors);
-                    }
+
+                    // If adding to role fails, return a 500 status code with the role errors
+                    return StatusCode(500, roleResult.Errors);
                 }
-                else
-                {
-                    return StatusCode(500, createdUser.Errors);
-                }
+
+                // If user creation fails, return a 500 status code with the creation errors
+                return StatusCode(500, createdUser.Errors);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, ex);
             }
         }
     }
