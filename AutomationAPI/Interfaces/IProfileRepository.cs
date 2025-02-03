@@ -1,7 +1,7 @@
 ﻿using AutomationAPI.DTOs.TemperatureProfile;
 using AutomationAPI.Models;
 
-namespace AutomationAPI.Repositories
+namespace AutomationAPI.Interfaces
 {
     public interface IProfileRepository
     {
@@ -29,9 +29,9 @@ namespace AutomationAPI.Repositories
         /// Updates an existing temperature profile.
         /// </summary>
         /// <param name="id">The ID of the profile to update.</param>
-        /// <param name="stockDto">The updated profile data.</param>
+        /// <param name="updateDto">The updated profile data.</param>
         /// <returns>The updated temperature profile or null if not found.</returns>
-        public Task<TemperatureProfile?> UpdateAsync(int id, UpdateProfileRequestDto stockDto);
+        public Task<TemperatureProfile?> UpdateAsync(int id, UpdateProfileRequestDto updateDto);
 
         /// <summary>
         /// Deletes a temperature profile by its ID.

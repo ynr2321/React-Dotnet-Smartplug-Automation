@@ -1,7 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Formats.Tar;
-using AutomationAPI.Data;
+﻿using AutomationAPI.Data;
 using AutomationAPI.DTOs.TemperatureProfile;
+using AutomationAPI.Interfaces;
 using AutomationAPI.Models;
 using Microsoft.EntityFrameworkCore;
 

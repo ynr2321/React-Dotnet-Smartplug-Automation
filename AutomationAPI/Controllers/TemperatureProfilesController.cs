@@ -1,7 +1,7 @@
-﻿using AutomationAPI.Data;
-using AutomationAPI.DTOs.TemperatureProfile;
+﻿using AutomationAPI.DTOs.TemperatureProfile;
+using AutomationAPI.Interfaces;
 using AutomationAPI.Mappers;
-using AutomationAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutomationAPI.Controllers
@@ -10,7 +10,6 @@ namespace AutomationAPI.Controllers
     [ApiController]
     public class TemperatureProfilesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private readonly IProfileRepository _profileRepo;
 
         // ReSharper disable once ConvertToPrimaryConstructor
@@ -19,9 +18,8 @@ namespace AutomationAPI.Controllers
         /// </summary>
         /// <param name="context">DbContext used to access choice of database</param>
         /// <param name="profileRepo">Repository interface that encapsulates database interaction logic - Scoped dependency</param>
-        public TemperatureProfilesController(ApplicationDbContext context, IProfileRepository profileRepo)
+        public TemperatureProfilesController(IProfileRepository profileRepo)
         {
-            _context = context;
             _profileRepo = profileRepo;
         }
 
@@ -29,6 +27,7 @@ namespace AutomationAPI.Controllers
         /// Returns all profiles
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
